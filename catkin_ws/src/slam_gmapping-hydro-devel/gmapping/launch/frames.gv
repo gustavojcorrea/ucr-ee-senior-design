@@ -1,0 +1,5 @@
+digraph G {
+"odom" -> "base_footprint"[label="Broadcaster: /mobile_base_nodelet_manager\nAverage rate: 20.509 Hz\nMost recent transform: 1542241672.622 \nBuffer length: 4.925 sec\n"];
+"base_link" -> "wheel_left_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 20.509 Hz\nMost recent transform: 1542241672.622 \nBuffer length: 4.925 sec\n"];
+"base_link" -> "wheel_right_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 20.509 Hz\nMost recent transform: 1542241672.622 \nBuffer length: 4.925 sec\n"];
+}

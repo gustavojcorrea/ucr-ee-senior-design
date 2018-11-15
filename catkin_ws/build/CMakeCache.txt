@@ -17,6 +17,24 @@
 //Build shared libraries (DLLs).
 BUILD_SHARED_LIBS:BOOL=ON
 
+//The directory containing a CMake configuration file for Boost.
+Boost_DIR:PATH=Boost_DIR-NOTFOUND
+
+//Path to a file.
+Boost_INCLUDE_DIR:PATH=/usr/include
+
+//Boost library directory DEBUG
+Boost_LIBRARY_DIR_DEBUG:PATH=/usr/lib/x86_64-linux-gnu
+
+//Boost library directory RELEASE
+Boost_LIBRARY_DIR_RELEASE:PATH=/usr/lib/x86_64-linux-gnu
+
+//Boost signals library (debug)
+Boost_SIGNALS_LIBRARY_DEBUG:FILEPATH=/usr/lib/x86_64-linux-gnu/libboost_signals.so
+
+//Boost signals library (release)
+Boost_SIGNALS_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libboost_signals.so
+
 //List of ';' separated packages to exclude
 CATKIN_BLACKLIST_PACKAGES:STRING=
 
@@ -278,6 +296,9 @@ _CATKIN_GTEST_INCLUDE:FILEPATH=/usr/include/gtest/gtest.h
 //Path to a file.
 _CATKIN_GTEST_SRC:FILEPATH=/usr/src/gtest/src/gtest.cc
 
+//Path to a file.
+_file_name:FILEPATH=/home/leonardo/catkin_ws/src/slam_gmapping-hydro-devel/gmapping/test/basic_localization_laser_different_beamcount.test
+
 //The directory containing a CMake configuration file for actionlib.
 actionlib_DIR:PATH=/opt/ros/kinetic/share/actionlib/cmake
 
@@ -400,6 +421,12 @@ genpy_DIR:PATH=/opt/ros/kinetic/share/genpy/cmake
 
 //The directory containing a CMake configuration file for geometry_msgs.
 geometry_msgs_DIR:PATH=/opt/ros/kinetic/share/geometry_msgs/cmake
+
+//Value Computed by CMake
+gmapping_BINARY_DIR:STATIC=/home/leonardo/catkin_ws/build/slam_gmapping-hydro-devel/gmapping
+
+//Value Computed by CMake
+gmapping_SOURCE_DIR:STATIC=/home/leonardo/catkin_ws/src/slam_gmapping-hydro-devel/gmapping
 
 //Value Computed by CMake
 gtest_BINARY_DIR:STATIC=/home/leonardo/catkin_ws/build/gtest
@@ -561,8 +588,14 @@ nav_msgs_DIR:PATH=/opt/ros/kinetic/share/nav_msgs/cmake
 //The directory containing a CMake configuration file for nodelet.
 nodelet_DIR:PATH=/opt/ros/kinetic/share/nodelet/cmake
 
+//The directory containing a CMake configuration file for openslam_gmapping.
+openslam_gmapping_DIR:PATH=/opt/ros/kinetic/share/openslam_gmapping/cmake
+
 //The directory containing a CMake configuration file for pluginlib.
 pluginlib_DIR:PATH=/opt/ros/kinetic/share/pluginlib/cmake
+
+//The directory containing a CMake configuration file for rosbag_storage.
+rosbag_storage_DIR:PATH=/opt/ros/kinetic/share/rosbag_storage/cmake
 
 //The directory containing a CMake configuration file for rosconsole.
 rosconsole_DIR:PATH=/opt/ros/kinetic/share/rosconsole/cmake
@@ -588,11 +621,17 @@ rosgraph_msgs_DIR:PATH=/opt/ros/kinetic/share/rosgraph_msgs/cmake
 //The directory containing a CMake configuration file for roslib.
 roslib_DIR:PATH=/opt/ros/kinetic/share/roslib/cmake
 
+//The directory containing a CMake configuration file for roslz4.
+roslz4_DIR:PATH=/opt/ros/kinetic/share/roslz4/cmake
+
 //The directory containing a CMake configuration file for rospack.
 rospack_DIR:PATH=/opt/ros/kinetic/share/rospack/cmake
 
 //The directory containing a CMake configuration file for rospy.
 rospy_DIR:PATH=/opt/ros/kinetic/share/rospy/cmake
+
+//The directory containing a CMake configuration file for rostest.
+rostest_DIR:PATH=/opt/ros/kinetic/share/rostest/cmake
 
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/kinetic/share/rostime/cmake
@@ -605,6 +644,15 @@ rplidar_ros_SOURCE_DIR:STATIC=/home/leonardo/catkin_ws/src/rplidar_ros-master
 
 //The directory containing a CMake configuration file for sensor_msgs.
 sensor_msgs_DIR:PATH=/opt/ros/kinetic/share/sensor_msgs/cmake
+
+//Value Computed by CMake
+slam_gmapping_BINARY_DIR:STATIC=/home/leonardo/catkin_ws/build/slam_gmapping-hydro-devel/slam_gmapping
+
+//Value Computed by CMake
+slam_gmapping_SOURCE_DIR:STATIC=/home/leonardo/catkin_ws/src/slam_gmapping-hydro-devel/slam_gmapping
+
+//Dependencies for the target
+slam_gmapping_nodelet_LIB_DEPENDS:STATIC=general;/opt/ros/kinetic/lib/libnodeletlib.so;general;/usr/lib/x86_64-linux-gnu/libuuid.so;general;/opt/ros/kinetic/lib/libbondcpp.so;general;/usr/lib/x86_64-linux-gnu/libtinyxml2.so;general;/opt/ros/kinetic/lib/libclass_loader.so;general;/usr/lib/libPocoFoundation.so;general;/usr/lib/x86_64-linux-gnu/libdl.so;general;/opt/ros/kinetic/lib/libroslib.so;general;/opt/ros/kinetic/lib/librospack.so;general;/usr/lib/x86_64-linux-gnu/libpython2.7.so;general;/usr/lib/x86_64-linux-gnu/libtinyxml.so;general;/opt/ros/kinetic/lib/libgridfastslam.so;general;/opt/ros/kinetic/lib/libscanmatcher.so;general;/opt/ros/kinetic/lib/libsensor_base.so;general;/opt/ros/kinetic/lib/libsensor_range.so;general;/opt/ros/kinetic/lib/libsensor_odometry.so;general;/opt/ros/kinetic/lib/libutils.so;general;/opt/ros/kinetic/lib/libtf.so;general;/opt/ros/kinetic/lib/libtf2_ros.so;general;/opt/ros/kinetic/lib/libactionlib.so;general;/opt/ros/kinetic/lib/libmessage_filters.so;general;/opt/ros/kinetic/lib/libroscpp.so;general;/usr/lib/x86_64-linux-gnu/libboost_signals.so;general;/opt/ros/kinetic/lib/libxmlrpcpp.so;general;/opt/ros/kinetic/lib/libtf2.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/x86_64-linux-gnu/liblog4cxx.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/x86_64-linux-gnu/libboost_thread.so;general;/usr/lib/x86_64-linux-gnu/libboost_chrono.so;general;/usr/lib/x86_64-linux-gnu/libboost_atomic.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/opt/ros/kinetic/lib/librosbag_storage.so;general;/usr/lib/x86_64-linux-gnu/libconsole_bridge.so;general;/usr/lib/x86_64-linux-gnu/libboost_date_time.so;general;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so;general;/usr/lib/x86_64-linux-gnu/libboost_program_options.so;general;/usr/lib/x86_64-linux-gnu/libboost_regex.so;general;/usr/lib/x86_64-linux-gnu/libboost_system.so;general;/opt/ros/kinetic/lib/libroslz4.so;general;/usr/lib/x86_64-linux-gnu/liblz4.so;
 
 //The directory containing a CMake configuration file for smclib.
 smclib_DIR:PATH=/opt/ros/kinetic/share/smclib/cmake
@@ -677,6 +725,18 @@ yocs_controllers_DIR:PATH=/opt/ros/kinetic/share/yocs_controllers/cmake
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: Boost_DIR
+Boost_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_INCLUDE_DIR
+Boost_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_LIBRARY_DIR_DEBUG
+Boost_LIBRARY_DIR_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_LIBRARY_DIR_RELEASE
+Boost_LIBRARY_DIR_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_SIGNALS_LIBRARY_DEBUG
+Boost_SIGNALS_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Boost_SIGNALS_LIBRARY_RELEASE
+Boost_SIGNALS_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //catkin environment
 CATKIN_ENV:INTERNAL=/home/leonardo/catkin_ws/build/catkin_generated/env_cached.sh
 CATKIN_TEST_RESULTS_DIR:INTERNAL=/home/leonardo/catkin_ws/build/test_results
@@ -774,7 +834,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=24
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=26
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -838,4 +898,16 @@ PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
 //  And it needs to match.  But setuptools won't tell us where
 // it will install things.
 PYTHON_INSTALL_DIR:INTERNAL=lib/python2.7/dist-packages
+//Components requested for this build tree.
+_Boost_COMPONENTS_SEARCHED:INTERNAL=signals
+//Last used Boost_INCLUDE_DIR value.
+_Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
+//Last used Boost_LIBRARY_DIR_DEBUG value.
+_Boost_LIBRARY_DIR_DEBUG_LAST:INTERNAL=/usr/lib/x86_64-linux-gnu
+//Last used Boost_LIBRARY_DIR_RELEASE value.
+_Boost_LIBRARY_DIR_RELEASE_LAST:INTERNAL=/usr/lib/x86_64-linux-gnu
+//Last used Boost_NAMESPACE value.
+_Boost_NAMESPACE_LAST:INTERNAL=boost
+//Last used Boost_USE_MULTITHREADED value.
+_Boost_USE_MULTITHREADED_LAST:INTERNAL=TRUE
 
