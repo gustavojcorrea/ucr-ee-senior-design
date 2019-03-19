@@ -1,8 +1,0 @@
-prefix=/home/leonardo/catkin_ws/install
-
-Name: kobuki_capabilities
-Description: Description of kobuki_capabilities
-Version: 0.7.6
-Cflags: 
-Libs: -L/home/leonardo/catkin_ws/install/lib 
-Requires: 
