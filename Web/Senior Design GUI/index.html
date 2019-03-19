@@ -1,0 +1,212 @@
+<!--
+  Author: Kyle Semelka
+  Email: kylesemelka@gmail.com
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script src="https://static.robotwebtools.org/EaselJS/0.7.1/easeljs.min.js"></script>
+  <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script src="https://static.robotwebtools.org/roslibjs/0.14.0/roslib.min.js"></script>
+  <script src="https://static.robotwebtools.org/ros2djs/current/ros2d.min.js"></script>
+  <script src="https://static.robotwebtools.org/nav2djs/current/nav2d.min.js"></script>
+
+  <title>MR.SCOT Command Interface</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body onload="init()">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">MR.SCOT Command Interface</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left column -->
+      <div class="col">
+        <!-- State Machine Status -->
+        <div class="mt-5 text-center">
+          <h2>Robot State:</h2>
+          <div class="col">
+              <div id="menu" style="background-color: rgb(80, 188, 255); margin-right: 25%; margin-left: 25%; opacity: .4">Menu</div>
+              <div id="approach" style="background-color: rgb(73, 232, 133); margin-right: 25%; margin-left: 25%; opacity: .4">Approach</div>
+              <div id="lock" style="background-color:rgb(223, 255, 93); margin-right: 25%; margin-left: 25%; opacity: .4">Lock</div>
+              <div id="plan" style="background-color:rgb(232, 202, 136); margin-right: 25%; margin-left: 25%; opacity: .4">Plan</div>
+              <div id="dock" style="background-color:rgb(255, 117, 80); margin-right: 25%; margin-left: 25%; opacity: .4">Dock</div>
+              <div id="move" style="background-color:mediumvioletred; margin-right: 25%; margin-left: 25%; opacity: .4">Move</div>
+              <div id="undock" style="background-color:rgb(80, 255, 226); margin-right: 25%; margin-left: 25%; opacity: .4">Undock</div>
+              <div id="go_home" style="background-color:rgb(80, 180, 226); margin-right: 25%; margin-left: 25%; opacity: .4">Go Home</div>
+              <div id="cleanup" style="background-color:rgb(172, 117, 235); margin-right: 25%; margin-left: 25%; opacity: .4">Cleanup</div>
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="mt-5 text-center" style="display: none;">
+          <h2>Time elapsed:</h2>
+          <div class="stopwatch" id="timer"></div>
+        </div>
+
+        <!-- Battery Info -->
+        <div class="mt-5 text-center">
+          <h2>Battery Info:</h2>
+          <p style="font-size:20px" id="battery_info"></p>
+        </div>
+
+        <!-- AR Tag Position -->
+        <div class="mt-5 text-center">
+          <h2 class="mt-5">AR Tag Position:</h2>
+          <div class="row" style="margin-left: 30%; margin-right: 30%">
+            <label style="font-size:20px" for="ar_tag_position_x">x (m): </label>
+            <p style="font-size:20px" id="ar_tag_position_x"></p>
+          </div>
+            
+          <div class="row" style="margin-left: 30%; margin-right: 30%">
+            <label style="font-size:20px" for="ar_tag_position_y">y (m): </label>
+            <p style="font-size:20px" id="ar_tag_position_y"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle column -->
+      <div class="col">
+        <!--Command Buttons-->
+        <div class="text-center">
+          <h2 class="mt-5">Commands:</h2>
+          <button id="stopButton" type="button" class="btn btn-danger" onclick="stop()" style="display: none;">Stop</button>
+          <button id="startButton" type="button" class="btn btn-success" onclick="start()" style="display: none;">Start</button>
+          <button id="magnetButton" type="button" class="btn btn-primary" onclick="publish_lock_state()">Lock/Unlock</button>
+          <button id="homeButton" type="button" class="btn btn-primary" onclick="go_home()" style="display: none;">Go Home</button>
+        </div>
+
+        <!-- Coordinates Input -->
+        <div class="text-center">
+          <h2 class="mt-5">Enter Waypoint:</h2>
+          <div class="center" style="width:260px">
+            <form id="coordinatesForm" class="user-form">
+              <div class="field">
+                  <label for="x-coord">x:</label>
+                  <input name="x-coord" type="number" size="50" />
+              </div>
+              <div class="field">
+                  <label for="y-coord">y:</label>
+                  <input name="y-coord" type="number" size="50" />
+              </div>
+              <div class="field">
+                  <label for="yaw">Yaw (Degrees):</label>
+                  <input name="yaw" type="number" size="50" />
+              </div>
+            <form>
+          </div>
+          <button id="waypointButton1" type="button" class="btn btn-primary center" onclick="send_waypoint_1()" style="width:150px";>Send Waypoint to Robot 1</button>
+          <button id="waypointButton2" type="button" class="btn btn-primary center" onclick="send_waypoint_2()" style="width:150px";>Send Waypoint to Robot 2</button>
+        </div>
+      </div>
+      <!-- Right column -->
+      <div class="col">
+        <!-- Rosbridge Status -->
+        <div class="col text-center"> 
+          <h2 class="mt-5">Rosbridge Status:</h2>
+          <div class="col text-center" id="statusIndicator" >
+            
+            <p id="connecting">
+              Connecting to rosbridge...
+            </p>
+            <p id="connected" style="color:#00D600; display:none">
+              Connected
+            </p>
+            <p id="error" style="color:#FF0000; display:none">
+              Error in the backend!
+            </p>
+            <p id="closed" style="display:none">
+              Connection closed.
+            </p>
+          </div>
+        </div>
+
+        <!-- Robot Position -->
+        <div class="col text-center">
+          <h2 class="mt-5">Robot 1 Position:</h2>
+          <div class="row" style="margin-left: 30%; margin-right: 30%">
+            <label style="font-size:20px; margin-right: 5px" for="robot_1_position_x">x: </label>
+            <p style="font-size:20px" id="robot_1_position_x"></p>
+          </div>
+            
+          <div class="row" style="margin-left: 30%; margin-right: 30%">
+            <label style="font-size:20px; margin-right: 5px" for="robot_1_position_y">y: </label>
+            <p style="font-size:20px" id="robot_1_position_y"></p>
+          </div>
+
+          <h2 class="mt-5">Robot 2 Position:</h2>
+          <div class="row" style="margin-left: 30%; margin-right: 30%">
+            <label style="font-size:20px; margin-right: 5px" for="robot_2_position_x">x:  </label>
+            <p style="font-size:20px" id="robot_2_position_x"></p>
+          </div>
+            
+          <div class="row" style="margin-left: 30%; margin-right: 30%">
+            <label style="font-size:20px; margin-right: 5px" for="robot_2_position_y">y: </label>
+            <p style="font-size:20px" id="robot_2_position_y"></p>
+          </div>
+        </div>
+
+        <!-- Robot Load -->
+        <div class="col text-center">
+          <h2 class="mt-5">Current Load:</h2>
+          <p id="robot-load"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Map -->
+      <div class="col text-center">
+        <h2 class="mt-3">Map:</h2>
+        <div class="flex" id="map"></div>
+      </div>
+
+      <!-- Camera -->
+      <div id="cameraSection" class="col text-center">
+        <h2 class="mt-3">Camera:</h2>
+        <canvas id="camera" width="480" height="320" class="flex" style="border:1px solid #000000;"></canvas>
+      </div>
+    </div>
+    
+    
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- External scripts -->
+  <script src="run.js"></script>
+  <script src="stopwatch.js"></script>
+</body>
+</html>
